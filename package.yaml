@@ -1,0 +1,7 @@
+name: debug-tools
+
+executables:
+  debug-args:
+    main: debug-args.hs
+    dependencies:
+      - base
