@@ -5,3 +5,9 @@ executables:
     main: debug-args.hs
     dependencies:
       - base
+  debug-signals:
+    main: debug-signals.hs
+    dependencies:
+      - base
+      - containers
+      - unix
