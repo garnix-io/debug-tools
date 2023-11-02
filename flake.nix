@@ -59,7 +59,102 @@
             inherit system;
           };
         in
-        { }
+        {
+          "main_hlint" =
+            let
+              dev =
+                (
+                  (
+                    let
+                      expr =
+                        (pkgs.haskell.packages.ghc94.callCabal2nix
+                          "garn-pkg"
+
+                          (
+                            let
+                              lib = pkgs.lib;
+                              lastSafe = list:
+                                if lib.lists.length list == 0
+                                then null
+                                else lib.lists.last list;
+                            in
+                            builtins.path
+                              {
+                                path = ./.;
+                                name = "source";
+                                filter = path: type:
+                                  let
+                                    fileName = lastSafe (lib.strings.splitString "/" path);
+                                  in
+                                  fileName != "flake.nix" &&
+                                  fileName != "garn.ts";
+                              }
+                          )
+
+                          { })
+                        // {
+                          meta.mainProgram = "debug-args";
+                        }
+                      ;
+                    in
+                    (if expr ? env
+                    then expr.env
+                    else pkgs.mkShell { inputsFrom = [ expr ]; }
+                    )
+                  ).overrideAttrs (finalAttrs: previousAttrs: {
+                    nativeBuildInputs =
+                      previousAttrs.nativeBuildInputs
+                      ++
+                      [ pkgs.haskell.packages.ghc94.cabal-install ];
+                  })
+                ).overrideAttrs (finalAttrs: previousAttrs: {
+                  nativeBuildInputs =
+                    previousAttrs.nativeBuildInputs
+                    ++
+                    [
+                      pkgs.hlint
+                      (pkgs.haskell-language-server.override {
+                        dynamic = true;
+                        supportedGhcVersions = [ "94" ];
+                      })
+                    ];
+                })
+              ;
+            in
+            pkgs.runCommand "check"
+              {
+                buildInputs = dev.buildInputs ++ dev.nativeBuildInputs;
+              } "
+      touch \$out
+      ${"
+      echo copying source
+      cp -r ${
+  (let
+    lib = pkgs.lib;
+    lastSafe = list :
+      if lib.lists.length list == 0
+        then null
+        else lib.lists.last list;
+  in
+  builtins.path
+    {
+      path = ./.;
+      name = "source";
+      filter = path: type:
+        let
+          fileName = lastSafe (lib.strings.splitString "/" path);
+        in
+         fileName != "flake.nix" &&
+         fileName != "garn.ts";
+    })
+} src
+      chmod -R u+rwX src
+      cd src
+    "}
+      ${"hlint *.hs"}
+    "
+          ;
+        }
       );
       devShells = forAllSystems (system:
         let
@@ -119,6 +214,7 @@
                 previousAttrs.nativeBuildInputs
                 ++
                 [
+                  pkgs.hlint
                   (pkgs.haskell-language-server.override {
                     dynamic = true;
                     supportedGhcVersions = [ "94" ];

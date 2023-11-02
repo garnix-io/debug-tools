@@ -1,5 +1,5 @@
 import * as garn from "https://garn.io/ts/v0.0.14/mod.ts";
-import { nixRaw } from "https://garn.io/ts/v0.0.14/nix.ts";
+import * as pkgs from "https://garn.io/ts/v0.0.14/nixpkgs.ts";
 
 export const main = garn.haskell
   .mkHaskellProject({
@@ -9,10 +9,12 @@ export const main = garn.haskell
     src: ".",
   })
   .withDevTools([
-    garn.mkPackage(nixRaw`
+    pkgs.hlint,
+    garn.mkPackage(garn.nix.nixRaw`
       (pkgs.haskell-language-server.override {
         dynamic = true;
         supportedGhcVersions = [ "94" ];
       })
     `),
-  ]);
+  ])
+  .addCheck("hlint")`hlint *.hs`;
