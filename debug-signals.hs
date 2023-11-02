@@ -20,61 +20,33 @@ main = do
 (~>) = singleton
 
 allSignals =
-  nullSignal
-    ~> "null signal"
-    <> sigABRT
-    ~> "SIGABRT"
-    <> sigALRM
-    ~> "SIGALRM"
-    <> sigBUS
-    ~> "SIGBUS"
-    <> sigCHLD
-    ~> "SIGCHLD"
-    <> sigCONT
-    ~> "SIGCONT"
-    <> sigFPE
-    ~> "SIGFPE"
-    <> sigHUP
-    ~> "SIGHUP"
-    <> sigILL
-    ~> "SIGILL"
-    <> sigINT
-    ~> "SIGINT"
-    <> sigKILL
-    ~> "SIGKILL"
-    <> sigPIPE
-    ~> "SIGPIPE"
-    <> sigQUIT
-    ~> "SIGQUIT"
-    <> sigSEGV
-    ~> "SIGSEGV"
-    <> sigSTOP
-    ~> "SIGSTOP"
-    <> sigTERM
-    ~> "SIGTERM"
-    <> sigTSTP
-    ~> "SIGTSTP"
-    <> sigTTIN
-    ~> "SIGTTIN"
-    <> sigTTOU
-    ~> "SIGTTOU"
-    <> sigUSR1
-    ~> "SIGUSR1"
-    <> sigUSR2
-    ~> "SIGUSR2"
-    <> sigPOLL
-    ~> "SIGPOLL"
-    <> sigPROF
-    ~> "SIGPROF"
-    <> sigSYS
-    ~> "SIGSYS"
-    <> sigTRAP
-    ~> "SIGTRAP"
-    <> sigURG
-    ~> "SIGURG"
-    <> sigVTALRM
-    ~> "SIGVTALRM"
-    <> sigXCPU
-    ~> "SIGXCPU"
-    <> sigXFSZ
-    ~> "SIGXFSZ"
+  mempty
+    <> (nullSignal ~> "null signal")
+    <> (sigABRT ~> "SIGABRT")
+    <> (sigALRM ~> "SIGALRM")
+    <> (sigBUS ~> "SIGBUS")
+    <> (sigCHLD ~> "SIGCHLD")
+    <> (sigCONT ~> "SIGCONT")
+    <> (sigFPE ~> "SIGFPE")
+    <> (sigHUP ~> "SIGHUP")
+    <> (sigILL ~> "SIGILL")
+    <> (sigINT ~> "SIGINT")
+    <> (sigKILL ~> "SIGKILL")
+    <> (sigPIPE ~> "SIGPIPE")
+    <> (sigQUIT ~> "SIGQUIT")
+    <> (sigSEGV ~> "SIGSEGV")
+    <> (sigSTOP ~> "SIGSTOP")
+    <> (sigTERM ~> "SIGTERM")
+    <> (sigTSTP ~> "SIGTSTP")
+    <> (sigTTIN ~> "SIGTTIN")
+    <> (sigTTOU ~> "SIGTTOU")
+    <> (sigUSR1 ~> "SIGUSR1")
+    <> (sigUSR2 ~> "SIGUSR2")
+    <> (sigPOLL ~> "SIGPOLL")
+    <> (sigPROF ~> "SIGPROF")
+    <> (sigSYS ~> "SIGSYS")
+    <> (sigTRAP ~> "SIGTRAP")
+    <> (sigURG ~> "SIGURG")
+    <> (sigVTALRM ~> "SIGVTALRM")
+    <> (sigXCPU ~> "SIGXCPU")
+    <> (sigXFSZ ~> "SIGXFSZ")

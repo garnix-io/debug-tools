@@ -1,5 +1,5 @@
-import * as garn from "https://garn.io/ts/v0.0.10/mod.ts";
-import { nixRaw } from "https://garn.io/ts/v0.0.10/nix.ts";
+import * as garn from "https://garn.io/ts/v0.0.14/mod.ts";
+import { nixRaw } from "https://garn.io/ts/v0.0.14/nix.ts";
 
 export const main = garn.haskell
   .mkHaskellProject({
@@ -12,7 +12,7 @@ export const main = garn.haskell
     garn.mkPackage(nixRaw`
       (pkgs.haskell-language-server.override {
         dynamic = true;
-        supportedGhcVersions = [ "945" ];
+        supportedGhcVersions = [ "94" ];
       })
     `),
   ]);
