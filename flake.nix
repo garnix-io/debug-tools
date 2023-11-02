@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/21443a102b1a2f037d02e1d22e3e0ffdda2dbff9";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/6fc7203e423bbf1c8f84cccf1c4818d097612566";
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.gomod2nix-repo.url = "github:nix-community/gomod2nix?rev=f95720e89af6165c8c0aa77f180461fe786f3c21";
   inputs.npmlock2nix-repo = {
@@ -59,7 +59,102 @@
             inherit system;
           };
         in
-        { }
+        {
+          "main_hlint" =
+            let
+              dev =
+                (
+                  (
+                    let
+                      expr =
+                        (pkgs.haskell.packages.ghc94.callCabal2nix
+                          "garn-pkg"
+
+                          (
+                            let
+                              lib = pkgs.lib;
+                              lastSafe = list:
+                                if lib.lists.length list == 0
+                                then null
+                                else lib.lists.last list;
+                            in
+                            builtins.path
+                              {
+                                path = ./.;
+                                name = "source";
+                                filter = path: type:
+                                  let
+                                    fileName = lastSafe (lib.strings.splitString "/" path);
+                                  in
+                                  fileName != "flake.nix" &&
+                                  fileName != "garn.ts";
+                              }
+                          )
+
+                          { })
+                        // {
+                          meta.mainProgram = "debug-args";
+                        }
+                      ;
+                    in
+                    (if expr ? env
+                    then expr.env
+                    else pkgs.mkShell { inputsFrom = [ expr ]; }
+                    )
+                  ).overrideAttrs (finalAttrs: previousAttrs: {
+                    nativeBuildInputs =
+                      previousAttrs.nativeBuildInputs
+                      ++
+                      [ pkgs.haskell.packages.ghc94.cabal-install ];
+                  })
+                ).overrideAttrs (finalAttrs: previousAttrs: {
+                  nativeBuildInputs =
+                    previousAttrs.nativeBuildInputs
+                    ++
+                    [
+                      pkgs.hlint
+                      (pkgs.haskell-language-server.override {
+                        dynamic = true;
+                        supportedGhcVersions = [ "94" ];
+                      })
+                    ];
+                })
+              ;
+            in
+            pkgs.runCommand "check"
+              {
+                buildInputs = dev.buildInputs ++ dev.nativeBuildInputs;
+              } "
+      touch \$out
+      ${"
+      echo copying source
+      cp -r ${
+  (let
+    lib = pkgs.lib;
+    lastSafe = list :
+      if lib.lists.length list == 0
+        then null
+        else lib.lists.last list;
+  in
+  builtins.path
+    {
+      path = ./.;
+      name = "source";
+      filter = path: type:
+        let
+          fileName = lastSafe (lib.strings.splitString "/" path);
+        in
+         fileName != "flake.nix" &&
+         fileName != "garn.ts";
+    })
+} src
+      chmod -R u+rwX src
+      cd src
+    "}
+      ${"hlint *.hs"}
+    "
+          ;
+        }
       );
       devShells = forAllSystems (system:
         let
@@ -119,9 +214,10 @@
                 previousAttrs.nativeBuildInputs
                 ++
                 [
+                  pkgs.hlint
                   (pkgs.haskell-language-server.override {
                     dynamic = true;
-                    supportedGhcVersions = [ "945" ];
+                    supportedGhcVersions = [ "94" ];
                   })
                 ];
             })
