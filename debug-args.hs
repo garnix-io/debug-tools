@@ -4,4 +4,4 @@ import System.IO
 main :: IO ()
 main = do
   args <- getArgs
-  hPutStrLn stderr (show args)
+  hPrint stderr args

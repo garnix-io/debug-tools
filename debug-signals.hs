@@ -20,8 +20,7 @@ main = do
 (~>) = singleton
 
 allSignals =
-  mempty
-    <> (nullSignal ~> "null signal")
+  (nullSignal ~> "null signal")
     <> (sigABRT ~> "SIGABRT")
     <> (sigALRM ~> "SIGALRM")
     <> (sigBUS ~> "SIGBUS")
