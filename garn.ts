@@ -1,5 +1,5 @@
-import * as garn from "https://garn.io/ts/v0.0.14/mod.ts";
-import * as pkgs from "https://garn.io/ts/v0.0.14/nixpkgs.ts";
+import * as garn from "https://garn.io/ts/v0.0.15/mod.ts";
+import * as pkgs from "https://garn.io/ts/v0.0.15/nixpkgs.ts";
 
 export const main = garn.haskell
   .mkHaskellProject({
@@ -17,4 +17,8 @@ export const main = garn.haskell
       })
     `),
   ])
-  .addCheck("hlint")`hlint *.hs`;
+  .addCheck("hlint", "hlint *.hs");
+
+export const debugArgs = garn.shell`${main.pkg}/bin/debug-args`;
+export const debugSignals = garn.shell`${main.pkg}/bin/debug-signals`;
+export const debugTtys = garn.shell`${main.pkg}/bin/debug-ttys`;

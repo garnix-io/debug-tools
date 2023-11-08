@@ -11,3 +11,7 @@ executables:
       - base
       - containers
       - unix
+  debug-ttys:
+    main: debug-ttys.hs
+    dependencies:
+      - base
