@@ -21,4 +21,5 @@ export const main = garn.haskell
 
 export const debugArgs = garn.shell`${main.pkg}/bin/debug-args`;
 export const debugSignals = garn.shell`${main.pkg}/bin/debug-signals`;
+export const debugStdin = garn.shell`${main.pkg}/bin/debug-stdin`;
 export const debugTtys = garn.shell`${main.pkg}/bin/debug-ttys`;

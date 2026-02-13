@@ -11,6 +11,11 @@ executables:
       - base
       - containers
       - unix
+  debug-stdin:
+    main: debug-stdin.hs
+    dependencies:
+      - base
+      - bytestring
   debug-ttys:
     main: debug-ttys.hs
     dependencies:
