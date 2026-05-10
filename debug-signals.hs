@@ -1,7 +1,6 @@
 import Control.Concurrent (threadDelay)
 import Control.Monad (forM_, forever)
-import Data.Map (Map, keys, singleton, toList, (!))
-import Foreign.C (CInt)
+import Data.Map (Map, singleton, toList)
 import System.IO (hPutStrLn, stderr)
 import System.Posix.Signals
 
@@ -14,11 +13,12 @@ main = do
             ("received signal: " <> name <> " (" <> show sig <> ")")
     installHandler sig (Catch handler) Nothing
   hPutStrLn stderr "listening for signals..."
-  forever $ threadDelay (10 ^ 6)
+  forever $ threadDelay (10 ^ (6 :: Integer))
 
 (~>) :: key -> value -> Map key value
 (~>) = singleton
 
+allSignals :: Map Signal String
 allSignals =
   (nullSignal ~> "null signal")
     <> (sigABRT ~> "SIGABRT")

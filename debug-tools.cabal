@@ -1,0 +1,48 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.38.3.
+--
+-- see: https://github.com/sol/hpack
+
+name:           debug-tools
+version:        0.0.0
+build-type:     Simple
+
+executable debug-args
+  main-is: debug-args.hs
+  other-modules:
+      Paths_debug_tools
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wpartial-fields -Wredundant-constraints -Wunused-packages -Werror
+  build-depends:
+      base
+  default-language: Haskell2010
+
+executable debug-signals
+  main-is: debug-signals.hs
+  other-modules:
+      Paths_debug_tools
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wpartial-fields -Wredundant-constraints -Wunused-packages -Werror
+  build-depends:
+      base
+    , containers
+    , unix
+  default-language: Haskell2010
+
+executable debug-stdin
+  main-is: debug-stdin.hs
+  other-modules:
+      Paths_debug_tools
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wpartial-fields -Wredundant-constraints -Wunused-packages -Werror
+  build-depends:
+      base
+    , bytestring
+  default-language: Haskell2010
+
+executable debug-ttys
+  main-is: debug-ttys.hs
+  other-modules:
+      Paths_debug_tools
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wpartial-fields -Wredundant-constraints -Wunused-packages -Werror
+  build-depends:
+      base
+  default-language: Haskell2010
