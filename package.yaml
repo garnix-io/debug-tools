@@ -1,5 +1,17 @@
 name: debug-tools
 
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-deriving-strategies
+  - -Wpartial-fields
+  - -Wredundant-constraints
+  - -Wunused-packages
+  - -Werror
+
 executables:
   debug-args:
     main: debug-args.hs
